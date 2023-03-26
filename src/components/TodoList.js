@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import CreateTask from '../modals/CreateTask'
 import Card from './Card';
+import swal from 'sweetalert';
+
 
 const TodoList = () => {
     const [modal, setModal] = useState(false);
@@ -17,11 +19,29 @@ const TodoList = () => {
 
 
     const deleteTask = (index) => {
-        let tempList = taskList
-        tempList.splice(index, 1)
-        localStorage.setItem("taskList", JSON.stringify(tempList))
-        setTaskList(tempList)
-        window.location.reload()
+        swal({
+            title: "Are you sure?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+              swal("Your Todo list has been deleted!", {
+                icon: "success",
+              }).then(()=>
+              {
+                let tempList = taskList
+                tempList.splice(index, 1)
+                localStorage.setItem("taskList", JSON.stringify(tempList))
+                setTaskList(tempList)
+                window.location.reload()
+              })
+            } else {
+              swal("canceled");
+            }
+          })
+       
     }
 
     const updateListArray = (obj, index) => {
@@ -37,11 +57,15 @@ const TodoList = () => {
     }
 
     const saveTask = (taskObj) => {
-        let tempList = taskList
-        tempList.push(taskObj)
-        localStorage.setItem("taskList", JSON.stringify(tempList))
-        setTaskList(taskList)
-        setModal(false)
+        swal({
+            title: "List created",
+            icon: "success",
+            button: "Ok",
+        });
+        const tempList = [...taskList, taskObj];
+        localStorage.setItem("taskList", JSON.stringify(tempList));
+        setTaskList(tempList);
+        setModal(false);
     }
 
 
