@@ -3,12 +3,14 @@
   width: 100%;
   background-color : #E9EEF6;
   padding-top: 50px;
+  
 }
 
 .card-container{
   height: 300px;
   width: 300px;
   box-shadow: 0px 3px 50px #A5A5A5;
+  display: flex;
 }
 
 .card-wrapper{
